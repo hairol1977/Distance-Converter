@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🚀 Smart Converter</title>
+  <style>
+    body {
+      background-color: #ECF9FF;
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h2 {
+      color: #2B4450;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background-color: #F1F8FF;
+      border: 2px ridge #ccc;
+      padding: 15px;
+      margin: 15px auto;
+      width: 85%;
+      max-width: 400px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      margin-top: 5px;
+      padding: 6px;
+      width: 80%;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 8px;
+      margin-right: 5px;
+      padding: 6px 12px;
+      font-size: 13px;
+      background-color: #D0E6FF;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #6C27A3;
+      margin-top: 15px;
+      background-color: #ffffff;
+      padding: 10px;
+      display: inline-block;
+      border: 1px groove #ccc;
+    }
+
+    #qrCanvas {
+      margin-top: 15px;
+    }
+
+    img {
+      margin: 10px 0;
+      width: 120px;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: gray;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h2>🚀 Distances & Times Converter</h2>
+  <div>
+    <img src="jarak.gif" alt="converter image" onerror="this.style.display='none'" />
+  </div>
+ 
+  <div class="section">
+    <label for="miles">Miles:</label>
+    <input type="number" id="miles" placeholder="Enter miles" />
+    <button onclick="convertMilesToKm()">→ To Kilometers</button>
+    <button onclick="convertMilesToHours()">→ To Hours</button>
+  </div>
+
+  <div class="section">
+    <label for="km">Kilometers:</label>
+    <input type="number" id="km" placeholder="Enter km" />
+    <button onclick="convertKmToMiles()">→ To Miles</button>
+    <button onclick="convertKmToHours()">→ To Hours</button>
+  </div>
+
+  <div class="section">
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" placeholder="Enter hours" />
+    <button onclick="convertHoursToMiles()">→ To Miles</button>
+    <button onclick="convertHoursToKm()">→ To Kilometers</button>
+  </div>
+
+   <div id="result">Result will appear here</div>
+  <div><canvas id="qrCanvas"></canvas></div>
+
+  <div style="height:40px;"></div>
+<footer class="mt-2" style="color:gray; font-style:italic; font-size:14px;">
+@Koleksi77
+</footer>
+
+  <!-- QR Code Generator -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    const result = document.getElementById("result");
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US"; // Change to "en-US" if needed
+      speechSynthesis.speak(utterance);
+    }
+
+    function generateQR(text) {
+      const canvas = document.getElementById("qrCanvas");
+      QRCode.toCanvas(canvas, text, function (error) {
+        if (error) console.error(error);
+      });
+    }
+
+    function updateResult(text) {
+      result.textContent = text;
+      speak(text);
+      generateQR(text);
+    }
+
+    function convertMilesToKm() {
+      const miles = parseFloat(document.getElementById("miles").value);
+      const output = isNaN(miles) ? "Invalid miles" : `${(miles * 1.60934).toFixed(2)} kilometers`;
+      updateResult(output);
+    }
+
+    function convertMilesToHours() {
+      const miles = parseFloat(document.getElementById("miles").value);
+      const output = isNaN(miles) ? "Invalid miles" : `${(miles / 60).toFixed(2)} hours`;
+      updateResult(output);
+    }
+
+    function convertKmToMiles() {
+      const km = parseFloat(document.getElementById("km").value);
+      const output = isNaN(km) ? "Invalid km" : `${(km / 1.60934).toFixed(2)} miles`;
+      updateResult(output);
+    }
+
+    function convertKmToHours() {
+      const km = parseFloat(document.getElementById("km").value);
+      const output = isNaN(km) ? "Invalid km" : `${(km / 60).toFixed(2)} hours`;
+      updateResult(output);
+    }
+
+    function convertHoursToMiles() {
+      const hours = parseFloat(document.getElementById("hours").value);
+      const output = isNaN(hours) ? "Invalid hours" : `${(hours * 60).toFixed(2)} miles`;
+      updateResult(output);
+    }
+
+    function convertHoursToKm() {
+      const hours = parseFloat(document.getElementById("hours").value);
+      const output = isNaN(hours) ? "Invalid hours" : `${(hours * 60).toFixed(2)} kilometers`;
+      updateResult(output);
+    }
+  </script>
+</body>
+</html>
